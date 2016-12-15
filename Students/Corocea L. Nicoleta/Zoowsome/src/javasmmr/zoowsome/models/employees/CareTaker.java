@@ -1,6 +1,11 @@
 package javasmmr.zoowsome.models.employees;
 
 import java.math.BigDecimal;
+import static javasmmr.zoowsome.repositories.AnimalRepository.createNode;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
+import org.w3c.dom.Element;
 
 import javasmmr.zoowsome.models.animals.Animal;
 import javasmmr.zoowsome.utils.Constants;
@@ -18,7 +23,7 @@ public class CareTaker extends Employee implements CareTaker_I {
 		this.workingHours = workingHours;
 	}
 
-	public double getWotrkingHours() {
+	public double getWorkingHours() {
 		return workingHours;
 	}
 
@@ -36,5 +41,16 @@ public class CareTaker extends Employee implements CareTaker_I {
 
 		return Constants.Employees.Caretakers.TCO_SUCCESS;
 
+	}
+
+	@Override
+	public void encodeToXml(XMLEventWriter eventWriter) throws XMLStreamException {
+		super.encodeToXml(eventWriter);
+		createNode(eventWriter, "canFly", String.valueOf(getWorkingHours()));
+	}
+
+	@Override
+	public void decodeFromXml(Element element) {
+		setWorkingHours(Double.valueOf(element.getElementsByTagName("workingHours").item(0).getTextContent()));
 	}
 }

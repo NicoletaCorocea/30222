@@ -1,11 +1,21 @@
 package javasmmr.zoowsome.controllers;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+
+import org.xml.sax.SAXException;
 
 import javasmmr.zoowsome.models.animals.Animal;
 import javasmmr.zoowsome.models.employees.CareTaker;
 import javasmmr.zoowsome.models.employees.Employee;
+import javasmmr.zoowsome.repositories.AnimalRepository;
+import javasmmr.zoowsome.repositories.EmployeesRepository;
 import javasmmr.zoowsome.services.factories.animalFactory.AnimalFactory;
 import javasmmr.zoowsome.services.factories.animalFactory.SpeciesFactory;
 import javasmmr.zoowsome.services.factories.employeeFactory.EmployeeAbstractFactory;
@@ -13,7 +23,8 @@ import javasmmr.zoowsome.services.factories.employeeFactory.EmployeeFactory;
 import javasmmr.zoowsome.utils.Constants;
 
 public class MainController {
-	public static void main(String[] args) {
+	public static void main(String[] args)
+			throws XMLStreamException, ParserConfigurationException, SAXException, IOException {
 		Scanner s = new Scanner(System.in);
 		String result = null;
 
@@ -134,17 +145,38 @@ public class MainController {
 			}
 		}
 		s.close();
-		// for each caretaker c {
-		// for each animal a {
-		// if(caretaker is not dead AND the animal has not been taken care of){
-		// result = c.takeCareOf(a)
-		// if(result.equals(Constants.Employees.Caretakers.TCO_KILLED))}
-		// declare the caretaker dead }
-		// else if(result.equals(Constants.Employees.Caretakers.TCO_NO_TIME){
-		// skip to the next animal, try to take care of that }
-		// else {
-		// a.setTakenCareOf(true)
-		// } } } }
+
+		AnimalRepository animalRepository = new AnimalRepository();
+		ArrayList<Animal> animals = new ArrayList<Animal>();
+
+		for (int i = 0; i < m; i++) {
+			animals.add(a[i]);
+		}
+
+		animalRepository.save(animals);
+		System.out.println("hey");
+		animals = animalRepository.load();
+
+		System.out.println("My xml: ");
+		for (int i = 0; i < m; i++) {
+			System.out.println(animals.get(i).getString());
+		}
+
+		EmployeesRepository employeeRepository = new EmployeesRepository();
+		ArrayList<Employee> employees = new ArrayList<Employee>();
+
+		for (int i = 0; i < m; i++) {
+			employees.add(c[i]);
+		}
+
+		employeeRepository.save(employees);
+		System.out.println("hey");
+		employees = employeeRepository.load();
+
+		System.out.println("My xml: ");
+		for (int i = 0; i < m; i++) {
+			System.out.println(((Employee) employees.get(i)).getName());
+		}
 	}
 
 }

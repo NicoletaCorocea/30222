@@ -1,8 +1,17 @@
 package javasmmr.zoowsome.models.animals;
 
+import static javasmmr.zoowsome.repositories.AnimalRepository.createNode;
+//import static javasmmr.zoowsome.repositories.AnimalRepository.createNode;
 import java.util.Random;
 
-public abstract class Animal implements Killer_i {
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
+import javasmmr.zoowsome.models.interfaces.XML_Parsable;
+
+import org.w3c.dom.Element;
+
+public abstract class Animal implements Killer_i, XML_Parsable {
 	private int nrOfLegs;
 	private String name;
 	final double maintenanceCost;
@@ -53,5 +62,31 @@ public abstract class Animal implements Killer_i {
 	public double getMaintenanceCost() {
 		// TODO Auto-generated method stub
 		return this.maintenanceCost;
+	}
+
+	public void encodeToXml(XMLEventWriter eventWriter) throws XMLStreamException {
+		createNode(eventWriter, "nrOfLegs", String.valueOf(this.nrOfLegs));
+		createNode(eventWriter, "name", String.valueOf(this.name));
+		createNode(eventWriter, "maintenanceCost", String.valueOf(this.maintenanceCost));
+		createNode(eventWriter, "dangerPerc", String.valueOf(this.dangPerc));
+		createNode(eventWriter, "takenCareOf", String.valueOf(this.takenCareOf));
+	}
+
+	public void decodeFromXml(Element element) {
+		setNrOfLegs(Integer.valueOf(element.getElementsByTagName("nrOfLegs").item(0).getTextContent()));
+		setName(element.getElementsByTagName("name").item(0).getTextContent());
+		setMaintenanceCost(Double.valueOf(element.getElementsByTagName("maintenanceCost").item(0).getTextContent()));
+		setDangerPerc(Double.valueOf(element.getElementsByTagName("dangerPerc").item(0).getTextContent()));
+		SetTakenCareOf(Boolean.valueOf(element.getElementsByTagName("takenCareOf").item(0).getTextContent()));
+	}
+
+	private void setDangerPerc(Double valueOf) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void setMaintenanceCost(Double valueOf) {
+		// TODO Auto-generated method stub
+
 	}
 }

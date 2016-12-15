@@ -1,8 +1,15 @@
 package javasmmr.zoowsome.models.employees;
 
 import java.math.BigDecimal;
+import static javasmmr.zoowsome.repositories.AnimalRepository.createNode;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
 
-public abstract class Employee {
+import org.w3c.dom.Element;
+
+import javasmmr.zoowsome.models.interfaces.XML_Parsable;
+
+public abstract class Employee implements XML_Parsable {
 	String name;
 	long id;
 	BigDecimal salary;
@@ -47,4 +54,17 @@ public abstract class Employee {
 		return isDead;
 	}
 
+	public void encodeToXml(XMLEventWriter eventWriter) throws XMLStreamException {
+		createNode(eventWriter, "name", String.valueOf(this.name));
+		createNode(eventWriter, "id", String.valueOf(this.id));
+		createNode(eventWriter, "salary", String.valueOf(this.salary));
+		createNode(eventWriter, "isDead", String.valueOf(this.isDead));
+	}
+
+	public void decodeFromXml(Element element) {
+		setName(element.getElementsByTagName("name").item(0).getTextContent());
+		setId(Long.valueOf(element.getElementsByTagName("id").item(0).getTextContent()));
+		setSalary(BigDecimal.valueOf(element.getElementsByTagName("salary").item(0).getTextContent()));
+		setIsDead(Boolean.valueOf(element.getElementsByTagName("isDead").item(0).getTextContent()));
+	}
 }

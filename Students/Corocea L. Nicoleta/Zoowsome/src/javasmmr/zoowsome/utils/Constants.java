@@ -54,4 +54,11 @@ public final class Constants {
 	public static final class Employee {
 		public static final String CareTaker = "CareTaker";
 	}
+
+	public static final class XML_TAGS {
+
+		public static final String ANIMAL = null;
+		public static final String DISCRIMINANT = null;
+		public static final String EMPLOYEES = null;
+	}
 }
